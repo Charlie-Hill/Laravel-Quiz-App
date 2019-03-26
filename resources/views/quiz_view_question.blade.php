@@ -44,7 +44,7 @@
 				$('#addAnswerBtn').hide();
 				$('#answers').append('\
 					<input type="text" name="answer" id="addAnswerInp" placeholder="Enter the answer" />\
-					<input type="checkbox" name="correct_answer" value="0"> Correct Answer<br> \
+					<input type="checkbox" id="correct_answer" value="0"> Correct Answer<br> \
 					<button type="submit" id="submitAnswerBtn">Submit</button>\
 					');
 
@@ -64,7 +64,7 @@
 					method: 'post',
 					data: {
 						answer: $('#addAnswerInp').val(),
-						correct_answer: $('#correct_answer').is(':checked'),
+						correct_answer: $('#correct_answer').is(':checked')  ? '1' :'0',
 						question_id: {{$question->id}}
 					},
 					success: function () {

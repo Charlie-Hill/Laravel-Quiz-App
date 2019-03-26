@@ -50,27 +50,20 @@ class QuizController extends Controller
 	public function addAnswerToQuestion(Request $request)
 	{
 		if(!$request->ajax()) return response('Forbidden.', 403);
-		
-		\Log::info("THIS IS A DEBUG");
-		\Log::info($request);
 
 		$validatedData = $request->validate([
 			'answer' => 'required|max:255',
 			'question_id' => 'required'
 		]);
 
-		$correct_answer = filter_var(request('correct_answer'), FILTER_VALIDATE_BOOLEAN);
-
-		\Log::info('Value of correct_answer ' . $correct_answer);
-
-		if($correct_answer == 1) {
+		if(request('correct_answer') == 1) {
 			QuizAnswer::where('quiz_question', request('question_id'))->where('correct_answer', 1)->update(['correct_answer' => 0]);
 		}
 
 		QuizAnswer::create([
 			'quiz_question' => request('question_id'),
 			'quiz_answer' => request('answer'),
-			'correct_answer' => $correct_answer
+			'correct_answer' => request('correct_answer');
 		]);
 
 		return response()->json(['success'=>'Data is successfully added']);
