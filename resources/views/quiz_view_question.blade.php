@@ -91,7 +91,7 @@
 						url: "{{route('quiz delete answer')}}",
 						method: 'post',
 						data: {
-							question_id: {{$question_id}},
+							question_id: {{$question->id}},
 							answer_id: $(this).data('answer-id')
 						},
 						success: function () {
