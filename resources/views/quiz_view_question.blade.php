@@ -6,6 +6,13 @@
 	<title>Quiz View Question</title>
 
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+	<style>
+		.no-border {
+			border: none;
+			background-color: transparent;
+			cursor: pointer;
+		}
+	</style>
 </head>
 <body>
 
@@ -20,11 +27,7 @@
 			<ul>
 				@foreach($question->answers as $answer)
 					<li>
-						@if($answer->correct_answer == 1)
-							<span style="color: green;">{{$answer->quiz_answer}} | <i class="fas fa-check"></i> Correct Answer!</span>					
-						@else
-							{{$answer->quiz_answer}}
-						@endif
+						<span style="{{$answer->correct_answer ? "color: green;" : ""}};">{{$answer->quiz_answer}} @if($answer->correct_answer == 1)| <i class="fas fa-check"></i> Correct Answer!@endif <button class="no-border deleteBtn" data-answer-id="{{$answer->id}}"><i class="fas fa-trash"></i></button></span>
 					</li>
 				@endforeach
 			</ul>
@@ -73,6 +76,29 @@
 						$('#addAnswerBtn').show();
 					}
 				});
+			});
+
+			$(document).on('click', '.deleteBtn', function () {
+				var result = confirm("Are you sure you want to delete this answer?");
+
+				if(result) {
+					$.ajaxSetup({
+						headers: {
+							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+						}
+					});
+					$.ajax({
+						url: "{{route('quiz delete answer')}}",
+						method: 'post',
+						data: {
+							question_id: {{$question_id}},
+							answer_id: $(this).data('answer-id')
+						},
+						success: function () {
+							
+						}
+					})					
+				}
 			});
 		});
 	</script>

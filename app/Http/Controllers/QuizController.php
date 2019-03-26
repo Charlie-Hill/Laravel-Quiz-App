@@ -68,4 +68,11 @@ class QuizController extends Controller
 
 		return response()->json(['success'=>'Data is successfully added']);
 	}
+
+	public function removeAnswerFromQuestion(Request $request)
+	{
+		if(!$request->ajax()) return response('Forbidden.', 403);
+
+		
+	}
 }
