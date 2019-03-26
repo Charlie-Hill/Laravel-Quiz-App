@@ -63,7 +63,7 @@ class QuizController extends Controller
 		QuizAnswer::create([
 			'quiz_question' => request('question_id'),
 			'quiz_answer' => request('answer'),
-			'correct_answer' => request('correct_answer');
+			'correct_answer' => request('correct_answer')
 		]);
 
 		return response()->json(['success'=>'Data is successfully added']);
