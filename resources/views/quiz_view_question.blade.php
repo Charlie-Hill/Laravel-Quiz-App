@@ -81,6 +81,8 @@
 			$(document).on('click', '.deleteBtn', function () {
 				var result = confirm("Are you sure you want to delete this answer?");
 
+				console.log($(this).data('answer-id'));
+
 				if(result) {
 					$.ajaxSetup({
 						headers: {
@@ -95,7 +97,7 @@
 							answer_id: $(this).data('answer-id')
 						},
 						success: function () {
-							
+							$('#answers').load(location.href + ' #answers');
 						}
 					})					
 				}
