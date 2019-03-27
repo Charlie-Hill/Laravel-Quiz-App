@@ -8,7 +8,7 @@
 	
 	<form method="post">
 		@csrf
-		<input type="text" name="quiz_question" placeholder="Enter a question">
+		<input type="text" name="quiz_question" placeholder="Enter a question" autocomplete="off">
 		<button>Submit</button>
 	</form>
 

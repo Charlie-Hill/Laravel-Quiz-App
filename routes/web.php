@@ -12,15 +12,21 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(route('exams index'));
 });
+
+Route::get('/quiz/exams', 'ExamController@index')->name('exams index');
+Route::get('/quiz/exams/view/{id}', 'ExamController@viewExam')->name('exams view exam');
+
+Route::get('/quiz/exams/add', 'ExamController@addExam')->name('exams add exam');
+Route::post('/quiz/exams/add', 'ExamController@handleAddExam');
+
+Route::post('/quiz/exams/questions/add', 'QuizController@handleAddQuizQuestionToExam')->name('quiz exam add question');
 
 Route::get('/quiz', 'QuizController@index')->name('quiz index');
 Route::get('/quiz/questions/view/{id}', 'QuizController@viewQuizQuestion')->name('quiz view question');
-
 Route::get('/quiz/add', 'QuizController@addQuizQuestion')->name('quiz add question');
 Route::post('/quiz/add', 'QuizController@handleAddQuizQuestion');
-
 Route::post('/quiz/questions/answers/add', 'QuizController@addAnswerToQuestion')->name('quiz add answer');
 Route::post('/quiz/questions/answers/correct/update', 'QuizController@changeCorrectAnswerForQuestion')->name('quiz change correct answer');
 Route::post('/quiz/questions/answers/remove', 'QuizController@deleteAnswerFromQuestion')->name('quiz delete answer');

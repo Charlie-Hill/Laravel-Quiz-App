@@ -6,20 +6,19 @@ use Illuminate\Http\Request;
 
 use App\QuizQuestion;
 use App\QuizAnswer;
+use App\QuizExam;
 
 class QuizController extends Controller
 {
-	public function index()
-	{
-		$questions = QuizQuestion::get();
-
-		return view('quiz_index')->with(['questions' => $questions]);
-	}
+	// public function index()
+	// {
+	// 	$questions = QuizQuestion::get();
+	// 	return view('quiz_index')->with(['questions' => $questions]);
+	// }
 
 	public function viewQuizQuestion($id)
 	{
 		$question = QuizQuestion::find($id);
-
 		return view('quiz_view_question')->with(['question' => $question]);
 	}
 
@@ -45,6 +44,25 @@ class QuizController extends Controller
 		]);
 
 		return redirect(route('quiz index'));
+	}
+
+	public function handleAddQuizQuestionToExam(Request $request)
+	{
+		if(!$request->ajax()) return response('Forbidden.', 403);
+
+		$validatedData = $request->validate([
+			'exam_id' => 'required',
+			'quiz_question' => 'required|max:255'
+		]);
+
+		$exam = QuizExam::find(request('exam_id'));
+
+		QuizQuestion::create([
+			'quiz_exam' => $exam->id,
+			'quiz_question' => request('quiz_question')
+		]);
+
+		return response()->json(['success' => 'Data is successfully added']);
 	}
 
 	public function addAnswerToQuestion(Request $request)
