@@ -17,7 +17,7 @@
 	<div class="row">
 		<div id="questions" class="col-md-12">
 			@if(count($exam->questions))
-			<h6>Questions:</h6>
+			<h6>Questions ({{count($exam->questions)}}):</h6>
 				<ul>
 					@foreach($exam->questions as $question)
 						<li>
@@ -35,7 +35,11 @@
 		</div>
 	</div>
 
-	<button type="button" class="btn btn-primary" id="addQuestionBtn">Add Question <i class="fas fa-plus"></i></button>
+	<hr>
+
+	<div id="buttons">
+		<button type="button" class="btn btn-primary" id="addQuestionBtn">Add Question <i class="fas fa-plus"></i></button>
+	</div>
 
 @endsection
 
@@ -47,10 +51,18 @@
 
 			$(document).on('click', '#addQuestionBtn', function () {
 				$(this).hide();
-				$('#questions').append('\
+				$('#buttons').append('\
 					<input type="text" class="form-control" name="quiz_question" id="quizQuestion" placeholder="Enter Question.." autocomplete="off" />\
 					<button type="button" class="btn btn-success" id="submitAddQuestionBtn">Submit</button>\
+					<button type="button" class="btn btn-outline-info" id="cancelAddQuestionBtn">Cancel</button>\
 					');
+			});
+
+			$(document).on('click', '#cancelAddQuestionBtn', function () {
+				$(this).remove();
+				$('#submitAddQuestionBtn').remove();
+				$('#quizQuestion').remove();
+				$('#addQuestionBtn').show();
 			});
 
 			$(document).on('click', '#submitAddQuestionBtn', function () {
@@ -70,7 +82,8 @@
 						quiz_question: $('#quizQuestion').val()
 					},
 					success: function () {
-						$('#submitAddQuestionBtn').hide();
+						$('#submitAddQuestionBtn').remove();
+						$('#quizQuestion').remove();
 						$('#questions').load(location.href + ' #questions');
 						$('#addQuestionBtn').show();
 					}
