@@ -18,7 +18,7 @@ class CreateQuizAnswersTable extends Migration
             $table->unsignedBigInteger('quiz_question')->nullable();
             $table->string('quiz_answer');
             $table->boolean('correct_answer')->default(0);
-            $table->foreign('quiz_question')->references('id')->on('quiz_questions');
+            $table->foreign('quiz_question')->references('id')->on('quiz_questions')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

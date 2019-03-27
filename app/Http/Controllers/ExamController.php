@@ -17,7 +17,8 @@ class ExamController extends Controller
     public function viewExam($id)
     {
         $exam = QuizExam::find($id);
-        return view('exams.exams_view')->with(['exam' => $exam]);
+        $exam_questions = $exam->questions()->paginate(10);
+        return view('exams.exams_view')->with(['exam' => $exam, 'exam_questions' => $exam_questions]);
     }
 
     public function addExam()

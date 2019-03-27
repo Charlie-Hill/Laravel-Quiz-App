@@ -21,8 +21,13 @@
 		@yield('content')
 	</div>
 
+	<div id="modalsContainer">
+		@yield('modals')
+	</div>
+
 	<script src="{{asset('assets/js/jquery-331.min.js')}}"></script>
 	<script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
+	<script src="{{asset('assets/js/global.js')}}"></script>
 	@yield('scripts')
 
 </body>

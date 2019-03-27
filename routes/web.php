@@ -30,3 +30,5 @@ Route::post('/quiz/add', 'QuizController@handleAddQuizQuestion');
 Route::post('/quiz/questions/answers/add', 'QuizController@addAnswerToQuestion')->name('quiz add answer');
 Route::post('/quiz/questions/answers/correct/update', 'QuizController@changeCorrectAnswerForQuestion')->name('quiz change correct answer');
 Route::post('/quiz/questions/answers/remove', 'QuizController@deleteAnswerFromQuestion')->name('quiz delete answer');
+
+Route::post('/quiz/questions/remove', 'QuizController@deleteQuestionFromExam')->name('delete question');

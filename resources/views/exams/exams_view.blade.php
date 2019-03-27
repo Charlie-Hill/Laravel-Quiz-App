@@ -19,7 +19,7 @@
 			@if(count($exam->questions))
 			<h6>Questions ({{count($exam->questions)}}):</h6>
 				<ul>
-					@foreach($exam->questions as $question)
+					@foreach($exam_questions as $question)
 						<li>
 							<a href="{{route('quiz view question', $question->id)}}">
 								{{$question->quiz_question}}
@@ -31,6 +31,9 @@
 						</li>
 					@endforeach
 				</ul>
+
+				{{$exam_questions->links()}}
+				<small>Showing {{($exam_questions->currentpage()-1)*$exam_questions->perpage()+1}} to {{$exam_questions->currentpage()*$exam_questions->perpage()}} of  {{$exam_questions->total()}} entries</small>
 			@endif
 		</div>
 	</div>
@@ -52,7 +55,7 @@
 			$(document).on('click', '#addQuestionBtn', function () {
 				$(this).hide();
 				$('#buttons').append('\
-					<input type="text" class="form-control" name="quiz_question" id="quizQuestion" placeholder="Enter Question.." autocomplete="off" />\
+					<input type="text" class="form-control" style="margin-bottom:10px;" name="quiz_question" id="quizQuestion" placeholder="Enter Question.." autocomplete="off" />\
 					<button type="button" class="btn btn-success" id="submitAddQuestionBtn">Submit</button>\
 					<button type="button" class="btn btn-outline-info" id="cancelAddQuestionBtn">Cancel</button>\
 					');

@@ -52,7 +52,7 @@ class QuizController extends Controller
 
 		$validatedData = $request->validate([
 			'exam_id' => 'required',
-			'quiz_question' => 'required|max:255'
+			'quiz_question' => 'required|max:1000'
 		]);
 
 		$question = request('quiz_question');
@@ -114,5 +114,15 @@ class QuizController extends Controller
 		$answer = QuizAnswer::destroy($answer);
 
 		return response()->json(['success'=>'Data is successfully removed']);
+	}
+
+	public function deleteQuestionFromExam(Request $request)
+	{
+		if(!$request->ajax()) return response('Forbidden.', 403);
+
+		$question = request('question_id');
+		QuizQuestion::destroy($question);
+
+		return response()->json(['success' => 'Data is successfully removed']);
 	}
 }
