@@ -21,7 +21,7 @@
 				<ul>
 					@foreach($exam_questions as $question)
 						<li>
-							<a href="{{route('quiz view question', $question->id)}}">
+							<a href="{{route('exam view question', [$exam->id, $question->id])}}">
 								{{$question->quiz_question}}
 								@if(count($question->answers) && !$question->answers->where('correct_answer', 1)->first())<span style="color: orange;"><i class="fas fa-exclamation-circle"></i> No correct answer!</span>
 								@elseif(!count($question->answers))
@@ -34,6 +34,8 @@
 
 				{{$exam_questions->links()}}
 				<small>Showing {{($exam_questions->currentpage()-1)*$exam_questions->perpage()+1}} to {{$exam_questions->currentpage()*$exam_questions->perpage()}} of  {{$exam_questions->total()}} entries</small>
+			@else
+				<p style="margin:0;">You have not created any exams. Create one <a href="{{route('exams add exam')}}">here.</a></p>
 			@endif
 		</div>
 	</div>
@@ -78,7 +80,7 @@
 					}
 				});
 				$.ajax({
-					url: "{{route('quiz exam add question')}}",
+					url: "{{route('exam add question')}}",
 					method: 'post',
 					data: {
 						exam_id: {{$exam->id}},

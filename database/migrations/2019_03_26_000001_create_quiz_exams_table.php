@@ -18,6 +18,7 @@ class CreateQuizExamsTable extends Migration
             $table->string('exam_name', 60);
             $table->string('exam_description');
             $table->integer('exam_timelimit')->nullable();
+            $table->integer('exam_passmark')->nullable();
             $table->timestamps();
         });
     }

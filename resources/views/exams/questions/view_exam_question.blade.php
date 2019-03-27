@@ -53,7 +53,7 @@
 					question_id: {{$question->id}}
 				},
 				success: function () {
-					window.location.href = "/exams/view/{{$question->quiz_exam}}"
+					window.location.href = "/quiz/exams/view/{{$question->quiz_exam}}"
 				}
 			});	
 		}
