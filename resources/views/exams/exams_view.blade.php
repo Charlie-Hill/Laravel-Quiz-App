@@ -7,7 +7,7 @@
 	<div class="row">
 		<div class="col-lg-12">
 		<h2>Exam: {{$exam->exam_name}}</h2>
-		<h4>{{$exam->exam_description}}</h4>
+		<h5>{{$exam->exam_description}}</h5>
 		<a href="{{route('exams index')}}"><span class="fas fa-arrow-left"></span> Back</a>
 		</div>
 	</div>
@@ -23,7 +23,10 @@
 						<li>
 							<a href="{{route('quiz view question', $question->id)}}">
 								{{$question->quiz_question}}
-								@if(!$question->answers->where('correct_answer', 1)->first())<span style="color: orange;"><i class="fas fa-exclamation-circle"></i> No correct answer!</span>@endif
+								@if(count($question->answers) && !$question->answers->where('correct_answer', 1)->first())<span style="color: orange;"><i class="fas fa-exclamation-circle"></i> No correct answer!</span>
+								@elseif(!count($question->answers))
+									<span style="color: orange;"><i class="fas fa-exclamation-circle"></i> No associated answers!</span>
+								@endif
 							</a>
 						</li>
 					@endforeach
