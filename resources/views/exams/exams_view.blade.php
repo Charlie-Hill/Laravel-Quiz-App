@@ -15,13 +15,16 @@
 	<hr>
 
 	<div class="row">
-		<div id="questions">
+		<div id="questions" class="col-md-12">
 			@if(count($exam->questions))
 			<h6>Questions:</h6>
 				<ul>
 					@foreach($exam->questions as $question)
 						<li>
-							<a href="{{route('quiz view question', $question->id)}}">{{$question->quiz_question}}</a>
+							<a href="{{route('quiz view question', $question->id)}}">
+								{{$question->quiz_question}}
+								@if(!$question->answers->where('correct_answer', 1)->first())<span style="color: orange;"><i class="fas fa-exclamation-circle"></i> No correct answer!</span>@endif
+							</a>
 						</li>
 					@endforeach
 				</ul>

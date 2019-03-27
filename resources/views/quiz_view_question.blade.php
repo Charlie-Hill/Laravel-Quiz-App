@@ -8,7 +8,7 @@
 
 	<hr>
 
-	<div id="answers">
+	<div id="answers" class="col-lg-12">
 		
 		@if(count($question->answers))
 			<ul>
@@ -24,7 +24,7 @@
 
 	</div>
 
-	<button type="button" id="addAnswerBtn">Add Answer <i class="fas fa-plus"></i></button>
+	<button type="button" class="btn btn-primary" id="addAnswerBtn">Add Answer <i class="fas fa-plus"></i></button>
 
 @endsection
 
@@ -35,9 +35,9 @@
 
 				$('#addAnswerBtn').hide();
 				$('#answers').append('\
-					<input type="text" name="answer" id="addAnswerInp" placeholder="Enter the answer" />\
+					<input type="text" name="answer" class="form-control" id="addAnswerInp" placeholder="Enter the answer" autocomplete="off" />\
 					<input type="checkbox" id="correct_answer" value="0"> Correct Answer<br> \
-					<button type="button" id="submitAnswerBtn">Submit</button>\
+					<button type="button" class="btn btn-primary" id="submitAnswerBtn">Submit</button>\
 					');
 
 			});

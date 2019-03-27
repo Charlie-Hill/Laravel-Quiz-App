@@ -55,11 +55,16 @@ class QuizController extends Controller
 			'quiz_question' => 'required|max:255'
 		]);
 
+		$question = request('quiz_question');
+		if(substr($question, -1) != '?') {
+			$question = $question . '?';
+		}
+
 		$exam = QuizExam::find(request('exam_id'));
 
 		QuizQuestion::create([
 			'quiz_exam' => $exam->id,
-			'quiz_question' => request('quiz_question')
+			'quiz_question' => $question
 		]);
 
 		return response()->json(['success' => 'Data is successfully added']);
