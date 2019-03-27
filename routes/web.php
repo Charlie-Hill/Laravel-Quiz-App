@@ -15,13 +15,13 @@ Route::get('/', function () {
     return redirect(route('exams index'));
 });
 
-Route::get('/quiz/exams', 'ExamController@index')->name('exams index');
-Route::get('/quiz/exams/view/{id}', 'ExamController@viewExam')->name('exams view exam');
+Route::get('/exams', 'ExamController@index')->name('exams index');
+Route::get('/exams/view/{id}', 'ExamController@viewExam')->name('exams view exam');
 
-Route::get('/quiz/exams/add', 'ExamController@addExam')->name('exams add exam');
-Route::post('/quiz/exams/add', 'ExamController@handleAddExam');
+Route::get('/exams/add', 'ExamController@addExam')->name('exams add exam');
+Route::post('/exams/add', 'ExamController@handleAddExam');
 
-Route::post('/quiz/exams/questions/add', 'QuizController@handleAddQuizQuestionToExam')->name('quiz exam add question');
+Route::post('/exams/questions/add', 'QuizController@handleAddQuizQuestionToExam')->name('quiz exam add question');
 
 Route::get('/quiz', 'QuizController@index')->name('quiz index');
 Route::get('/quiz/questions/view/{id}', 'QuizController@viewQuizQuestion')->name('quiz view question');
