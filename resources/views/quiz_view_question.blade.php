@@ -27,7 +27,7 @@
 			<ul>
 				@foreach($question->answers as $answer)
 					<li>
-						<span style="{{$answer->correct_answer ? "color: green;" : ""}};">{{$answer->quiz_answer}} @if($answer->correct_answer == 1)| <i class="fas fa-check"></i> Correct Answer!@endif <button class="no-border deleteBtn" data-answer-id="{{$answer->id}}"><i class="fas fa-trash"></i></button></span>
+						<span style="{{$answer->correct_answer ? "color: green;" : ""}};">{{$answer->quiz_answer}} @if($answer->correct_answer == 1)| <i class="fas fa-check"></i> Correct Answer!@endif <button class="no-border deleteBtn" data-answer-id="{{$answer->id}}"><i class="fas fa-trash"></i></button> @if(!$answer->correct_answer)<button class='no-border selectCorrectBtn' data-answer-id="{{$answer->id}}"><i class='fas fa-check'></i></button>@endif</span>
 					</li>
 				@endforeach
 			</ul>
@@ -78,10 +78,31 @@
 				});
 			});
 
+			$(document).on('click', '.selectCorrectBtn', function () {
+				var result = confirm("Are you sure you want to change the correct answer for this question?");
+
+				if(result)  {
+					$.ajaxSetup({
+						headers: {
+							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+						}
+					});
+					$.ajax({
+						url: "{{route('quiz change correct answer')}}",
+						method: 'post',
+						data: {
+							question_id: {{$question->id}},
+							answer_id: $(this).data('answer-id')
+						},
+						success: function () {
+							$('#answers').load(location.href + ' #answers');
+						}
+					});
+				}
+			});
+
 			$(document).on('click', '.deleteBtn', function () {
 				var result = confirm("Are you sure you want to delete this answer?");
-
-				console.log($(this).data('answer-id'));
 
 				if(result) {
 					$.ajaxSetup({
@@ -99,7 +120,7 @@
 						success: function () {
 							$('#answers').load(location.href + ' #answers');
 						}
-					})					
+					});
 				}
 			});
 		});

@@ -69,6 +69,18 @@ class QuizController extends Controller
 		return response()->json(['success'=>'Data is successfully added']);
 	}
 
+	public function changeCorrectAnswerForQuestion(Request $request)
+	{
+		if(!$request->ajax()) return response('Forbidden.', 403);
+
+		$answer = request('answer_id');
+
+		QuizAnswer::where('quiz_question', request('question_id'))->where('correct_answer', 1)->update(['correct_answer' => 0]);
+		QuizAnswer::find($answer)->update(['correct_answer' => 1]);
+
+		return response()->json(['success' => 'Data is successfully changed']);
+	}
+
 	public function deleteAnswerFromQuestion(Request $request)
 	{
 		if(!$request->ajax()) return response('Forbidden.', 403);
@@ -78,6 +90,6 @@ class QuizController extends Controller
 
 		$answer = QuizAnswer::destroy($answer);
 
-		return response()->json(['success'=>'Data is successfully added']);
+		return response()->json(['success'=>'Data is successfully removed']);
 	}
 }
