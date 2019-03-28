@@ -17,6 +17,7 @@
 				@else
 					<a href="{{route('exams take exam', $exam->id)}}">Take Exam</a>
 				@endif
+				| <button class="no-border deleteExamBtn" data-exam-title="{{$exam->exam_name}}">Delete Exam</button>
 			</li>
 		@endforeach
 	</ul>
@@ -24,5 +25,21 @@
 	<hr>
 
 	<a href="{{route('exams add exam')}}">Create new exam</a>
+
+@endsection
+
+@section('scripts')
+
+<script>
+	$(document).ready(function () {
+
+		$(document).on('click', '.deleteExamBtn', function () {
+			showConfirmationModal('Delete Exam', '\
+				You are about to delete the exam titled '+$(this).data('exam-title')+'.<br /><br />Are you sure this is what you want to do?\
+				', 'test');
+		});
+
+	});
+</script>
 
 @endsection
