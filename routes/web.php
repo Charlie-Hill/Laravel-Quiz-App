@@ -21,6 +21,7 @@ Route::get('/exams', 'ExamController@index')->name('exams index');
 Route::get('/exams/view/{id}', 'ExamController@viewExam')->name('exams view exam');
 Route::get('/exams/add', 'ExamController@addExam')->name('exams add exam');
 Route::post('/exams/add', 'ExamController@handleAddExam');
+Route::post('/exams/update', 'ExamController@handleUpdateExam')->name('exams update');
 /* Exam management */
 
 /* Exam questions management */

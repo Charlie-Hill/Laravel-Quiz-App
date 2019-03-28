@@ -38,4 +38,14 @@ class ExamController extends Controller
 		return redirect(route('exams index'));
     }
 
+    public function handleUpdateExam(Request $request)
+    {
+        if(!$request->ajax()) return response(['Forbidden.', 403]);
+
+        $exam = QuizExam::find(request('exam_id'));
+        $exam->update(['exam_name' => request('exam_name'), 'exam_description' => request('exam_description')]);
+
+        return response()->json(['success' => 'Data is successfully removed']);
+    }
+
 }

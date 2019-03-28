@@ -6,9 +6,21 @@
 	
 	<div class="row">
 		<div class="col-lg-12">
-		<h2>Exam: {{$exam->exam_name}}</h2>
-		<h5>{{$exam->exam_description}}</h5>
-		<a href="{{route('exams index')}}"><span class="fas fa-arrow-left"></span> Back</a>
+			<div id="title">
+				<h2>Exam: {{$exam->exam_name}}</h2>
+				<h5>{{$exam->exam_description}}</h5>
+				<input type="hidden" id="examNameVal" value="{{$exam->exam_name}}">
+				<input type="hidden" id="examDescriptionVal" value="{{$exam->exam_description}}">
+			</div>
+
+			<div class="row">
+				<div class="col-md-6">
+					<a href="{{route('exams index')}}"><i class="fas fa-arrow-left"></i> Back</a>
+				</div>
+				<div class="col-md-6" style="display:flex;flex-direction:column;align-items:flex-end;">
+					<a href="#" class="no-border" id="editExamBtn"><i class="fas fa-edit"></i> Edit</a>
+				</div>
+			</div>
 		</div>
 	</div>
 
@@ -35,7 +47,7 @@
 				{{$exam_questions->links()}}
 				<small>Showing {{($exam_questions->currentpage()-1)*$exam_questions->perpage()+1}} to {{$exam_questions->currentpage()*$exam_questions->perpage()}} of  {{$exam_questions->total()}} entries</small>
 			@else
-				<p style="margin:0;">You have not created any exams. Create one <a href="{{route('exams add exam')}}">here.</a></p>
+				<p style="margin:0;">You have not created any questions.</a></p>
 			@endif
 		</div>
 	</div>
@@ -53,6 +65,45 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script>
 		$(document).ready(function () {
+
+			$(document).on('click', '#editExamBtn', function () {
+				$('#editExamBtn').hide();
+				$('#title').html('\
+					<input type="text" class="form-control" value="'+$("#examNameVal").val()+'" id="examName" placeholder="Exam Title" />\
+					<textarea class="form-control" placeholder="Exam Description" id="examDescription">'+$("#examDescriptionVal").val()+'</textarea>\
+					<button id="cancelEditExam"><i class="fas fa-times"></i> Cancel</button>\
+					<button id="saveEditExam">Save Details</button>\
+					');
+			});
+
+			$(document).on('click', '#cancelEditExam', function () {
+				$('#title').load(window.location + ' #title');
+				$('#editExamBtn').show();
+			});
+
+			$(document).on('click', '#saveEditExam', function () {
+				$(this).attr('disabled', true);
+				$(this).html('Please wait..');
+
+				$.ajaxSetup({
+					headers: {
+						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					}
+				});
+				$.ajax({
+					url: "{{route('exams update')}}",
+					method: 'post',
+					data: {
+						exam_id: {{$exam->id}},
+						exam_name: $('#examName').val(),
+						exam_description: $('#examDescription').val()
+					},
+					success: function () {
+						$('#title').load(window.location + ' #title');
+						$('#editExamBtn').show();
+					}
+				});
+			});
 
 			$(document).on('click', '#addQuestionBtn', function () {
 				$(this).hide();
@@ -91,6 +142,7 @@
 						$('#quizQuestion').remove();
 						$('#questions').load(location.href + ' #questions');
 						$('#addQuestionBtn').show();
+						$('#cancelAddQuestionBtn').remove();
 					}
 				});
 			});
