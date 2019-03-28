@@ -24,6 +24,10 @@
 		</div>
 	</div>
 
+	@if($exam->hasMissingCorrectAnswers())
+		<div class="alert alert-warning" style="margin-top: 10px;"><i class="fas fa-exclamation-circle"></i> {{$exam->hasMissingCorrectAnswers()}} questions without correct answers.</div>
+	@endif
+
 	<hr>
 
 	<div class="row">
@@ -71,8 +75,8 @@
 				$('#title').html('\
 					<input type="text" class="form-control" value="'+$("#examNameVal").val()+'" id="examName" placeholder="Exam Title" />\
 					<textarea class="form-control" placeholder="Exam Description" id="examDescription">'+$("#examDescriptionVal").val()+'</textarea>\
-					<button id="cancelEditExam"><i class="fas fa-times"></i> Cancel</button>\
-					<button id="saveEditExam">Save Details</button>\
+					<button class="btn btn-outline-info" id="cancelEditExam"><i class="fas fa-times"></i> Cancel</button>\
+					<button class="btn btn-success" id="saveEditExam">Save Details <i class="fas fa-save"></i></button>\
 					');
 			});
 

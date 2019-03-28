@@ -9,7 +9,14 @@
 	<ul>
 		@foreach($exams as $exam)
 			<li>
-				<a href="{{route('exams view exam', $exam->id)}}">{{$exam->exam_name}} | <a href="{{route('exams take exam', $exam->id)}}">Take Exam</a></a>
+				{{$exam->exam_name}} || <a href="{{route('exams view exam', $exam->id)}}">Manage Exam</a> | 
+				@if(!$exam->hasQuestions())
+					<span style="color:red;"><i class="fas fa-exclamation-triangle"></i> This exam has no questions!</span>
+				@elseif($exam->hasMissingCorrectAnswers())
+					<span style="color:red;"><i class="fas fa-exclamation-triangle"></i> This exam has {{$exam->hasMissingCorrectAnswers()}} missing correct answers for questions.</span>
+				@else
+					<a href="{{route('exams take exam', $exam->id)}}">Take Exam</a>
+				@endif
 			</li>
 		@endforeach
 	</ul>
