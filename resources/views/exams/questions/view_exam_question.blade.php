@@ -85,7 +85,7 @@
 					}
 				});
 				$.ajax({
-					url: "{{route('quiz add answer')}}",
+					url: "{{route('exam question add answer')}}",
 					method: 'post',
 					data: {
 						answer: $('#addAnswerInp').val(),
@@ -111,7 +111,7 @@
 						}
 					});
 					$.ajax({
-						url: "{{route('quiz change correct answer')}}",
+						url: "{{route('exam question answer updateCorrect')}}",
 						method: 'post',
 						data: {
 							question_id: {{$question->id}},
@@ -135,7 +135,7 @@
 						}
 					});
 					$.ajax({
-						url: "{{route('quiz delete answer')}}",
+						url: "{{route('exam question delete answer')}}",
 						method: 'post',
 						data: {
 							question_id: {{$question->id}},
