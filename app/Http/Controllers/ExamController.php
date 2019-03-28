@@ -48,4 +48,14 @@ class ExamController extends Controller
         return response()->json(['success' => 'Data is successfully removed']);
     }
 
+    public function takeExam($id)
+    {
+        $exam = QuizExam::find($id);
+
+        $question_pool = $exam->questions()->inRandomOrder()->distinct()->get();
+
+        return view('tempTakeExam')
+                ->with(['exam' => $exam, 'question_pool' => $question_pool]);
+    }
+
 }

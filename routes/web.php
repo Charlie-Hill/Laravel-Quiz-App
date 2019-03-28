@@ -14,7 +14,6 @@
 Route::get('/', function () {
     return redirect(route('exams index'));
 });
-Route::get('/quiz', 'QuizController@index')->name('quiz index');
 
 /* Exam management */
 Route::get('/exams', 'ExamController@index')->name('exams index');
@@ -22,6 +21,8 @@ Route::get('/exams/view/{id}', 'ExamController@viewExam')->name('exams view exam
 Route::get('/exams/add', 'ExamController@addExam')->name('exams add exam');
 Route::post('/exams/add', 'ExamController@handleAddExam');
 Route::post('/exams/update', 'ExamController@handleUpdateExam')->name('exams update');
+
+Route::get('/exams/take/{id}', 'ExamController@takeExam')->name('exams take exam');
 /* Exam management */
 
 /* Exam questions management */
