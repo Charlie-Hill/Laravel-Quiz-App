@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\QuizExam;
+use App\QuizQuestion;
+use App\QuizAnswer;
 
 class ExamController extends Controller
 {
@@ -52,10 +54,47 @@ class ExamController extends Controller
     {
         $exam = QuizExam::find($id);
 
-        $question_pool = $exam->questions()->inRandomOrder()->distinct()->get();
+        $question_pool = $exam->questions()->inRandomOrder()->distinct()->take(5)->get();
 
         return view('tempTakeExam')
                 ->with(['exam' => $exam, 'question_pool' => $question_pool]);
+    }
+
+    public function submitExam(Request $request)
+    {
+        $questions = array();
+        for($i = 0; $i < request('num_questions'); $i++) {
+            $questions[] = list($question, $answer) = array(request('question_'.$i), request('answer_'.$i));
+        }
+
+        $correctCount = 0;
+        foreach($questions as $question)
+        {
+            $dbQuestion = QuizQuestion::find($question[0]);
+            $dbAnswer = QuizAnswer::find($question[1]);
+
+            // No need to query QuizAnswers twice. Select both once -> filter by correct_answer when displaying them
+            $otherAnswers = QuizAnswer::where('quiz_question', $dbQuestion->id)->where('correct_answer', '!=', 1)->get();
+
+            $correct = false;
+            if($dbAnswer->correct_answer == 1) {
+                $correct = true;
+                $correctCount++;
+            }
+
+            $string = "";
+            foreach($otherAnswers as $otherAnswer) {
+                $string = $string. "<br /><span style='color: grey;'>A.) ".$otherAnswer->quiz_answer."</span>";
+            }
+
+            print("Q.) " . $dbQuestion->quiz_question . "<br /><span style='margin-left:40px;'>A.) " . $dbAnswer->quiz_answer . " <b>" . ($correct ? '✓ correct' : 'X incorrect') . "</b>".$string."</span><br /><br /><");
+        }
+
+        $percentageScore = ($correctCount / count($questions)) * 100;
+
+        print("<hr>You scored: " . $correctCount . "/" . count($questions) . "(" . $percentageScore . "%)
+                <a href='/exams/view/".$dbQuestion->quiz_exam."'><-- Back</a>
+            ");
     }
 
 }

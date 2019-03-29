@@ -13,13 +13,17 @@
 	<hr>
 
 	<ul>
+		<form action="" method="post">
+			@csrf
+			<input type="hidden" name="num_questions" value="{{count($question_pool)}}">
 		@foreach($question_pool as $index => $question)
 			<li>{{$index+1}}.) {{$question->quiz_question}}
 				<ul>
-					@foreach($question->answers()->inRandomOrder()->distinct()->get() as $answer)
+					@foreach($question->answers()->inRandomOrder()->get() as $answer)
 						<li>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="{{$index}}" id="{{$answer->id}}" value="{{$answer->id}}">
+								<input class="form-check-input" type="radio" name="answer_{{$index}}" id="{{$answer->id}}" value="{{$answer->id}}">
+								<input type="hidden" name="question_{{$index}}" value="{{$question->id}}">
 								<label class="form-check-label">{{$answer->quiz_answer}}</label>
 							</div>
 						</li>
@@ -28,6 +32,8 @@
 			</li>
 			<br>
 		@endforeach
+		<button class="btn btn-primary">Submit</button>
+		</form>
 	</ul>
 
 @endsection

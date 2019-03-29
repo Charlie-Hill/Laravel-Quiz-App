@@ -23,6 +23,7 @@ Route::post('/exams/add', 'ExamController@handleAddExam');
 Route::post('/exams/update', 'ExamController@handleUpdateExam')->name('exams update');
 
 Route::get('/exams/take/{id}', 'ExamController@takeExam')->name('exams take exam');
+Route::post('/exams/take/{id}', 'ExamController@submitExam')->name('exams submit exam');
 /* Exam management */
 
 /* Exam questions management */
