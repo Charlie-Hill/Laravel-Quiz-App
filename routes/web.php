@@ -21,6 +21,7 @@ Route::get('/exams/view/{id}', 'ExamController@viewExam')->name('exams view exam
 Route::get('/exams/add', 'ExamController@addExam')->name('exams add exam');
 Route::post('/exams/add', 'ExamController@handleAddExam');
 Route::post('/exams/update', 'ExamController@handleUpdateExam')->name('exams update');
+Route::post('/exams/remove', 'ExamController@handleRemoveExam')->name('exam remove exam');
 
 Route::get('/exams/take/{id}', 'ExamController@takeExam')->name('exams take exam');
 Route::post('/exams/take/{id}', 'ExamController@submitExam')->name('exams submit exam');

@@ -17,7 +17,7 @@
 				@else
 					<a href="{{route('exams take exam', $exam->id)}}">Take Exam</a>
 				@endif
-				| <button class="no-border deleteExamBtn" data-exam-title="{{$exam->exam_name}}">Delete Exam</button>
+				| <button class="no-border deleteExamBtn" data-exam-id="{{$exam->id}}" data-exam-title="{{$exam->exam_name}}">Delete Exam</button>
 			</li>
 		@endforeach
 	</ul>
@@ -31,12 +31,31 @@
 @section('scripts')
 
 <script>
+	function removeExam() {
+		console.log("test");
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+		$.ajax({
+			url: "{{route('exam remove exam')}}",
+			method: 'post',
+			data: {
+				exam_id: $(this).data('exam-id')
+			},
+			success: function () {
+				window.location.href = "/";
+			}
+		});
+	}
+
 	$(document).ready(function () {
 
 		$(document).on('click', '.deleteExamBtn', function () {
 			showConfirmationModal('Delete Exam', '\
 				You are about to delete the exam titled '+$(this).data('exam-title')+'.<br /><br />Are you sure this is what you want to do?\
-				', 'test');
+				', 'removeExam()');
 		});
 
 	});

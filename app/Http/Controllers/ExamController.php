@@ -50,11 +50,20 @@ class ExamController extends Controller
         return response()->json(['success' => 'Data is successfully removed']);
     }
 
+    public function handleRemoveExam(Request $request)
+    {
+        if(!$request->ajax()) return response(['Forbidden', 403]);
+
+        QuizExam::destroy(request('exam_id'));
+
+        return response(['success' => 'Data is successfully removed']);
+    }
+
     public function takeExam($id)
     {
         $exam = QuizExam::find($id);
 
-        $question_pool = $exam->questions()->inRandomOrder()->distinct()->take(5)->get();
+        $question_pool = $exam->questions()->inRandomOrder()->distinct()->take(10)->get();
 
         return view('tempTakeExam')
                 ->with(['exam' => $exam, 'question_pool' => $question_pool]);
@@ -74,7 +83,7 @@ class ExamController extends Controller
             $dbAnswer = QuizAnswer::find($question[1]);
 
             // No need to query QuizAnswers twice. Select both once -> filter by correct_answer when displaying them
-            $otherAnswers = QuizAnswer::where('quiz_question', $dbQuestion->id)->where('correct_answer', '!=', 1)->get();
+            $otherAnswers = QuizAnswer::where('quiz_question', $dbQuestion->id)->where('id', '!=', $dbAnswer->id)->get();
 
             $correct = false;
             if($dbAnswer->correct_answer == 1) {
@@ -87,7 +96,7 @@ class ExamController extends Controller
                 $string = $string. "<br /><span style='color: grey;'>A.) ".$otherAnswer->quiz_answer."</span>";
             }
 
-            print("Q.) " . $dbQuestion->quiz_question . "<br /><span style='margin-left:40px;'>A.) " . $dbAnswer->quiz_answer . " <b>" . ($correct ? '✓ correct' : 'X incorrect') . "</b>".$string."</span><br /><br /><");
+            print("Q.) " . $dbQuestion->quiz_question . "<br /><span style='margin-left:40px;'>A.) " . $dbAnswer->quiz_answer . " <b>" . ($correct ? '✓ correct' : 'X incorrect') . "</b>".$string."</span><br /><br />");
         }
 
         $percentageScore = ($correctCount / count($questions)) * 100;
@@ -96,5 +105,4 @@ class ExamController extends Controller
                 <a href='/exams/view/".$dbQuestion->quiz_exam."'><-- Back</a>
             ");
     }
-
 }

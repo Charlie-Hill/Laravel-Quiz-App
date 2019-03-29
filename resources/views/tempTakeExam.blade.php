@@ -32,7 +32,7 @@
 			</li>
 			<br>
 		@endforeach
-		<button class="btn btn-primary">Submit</button>
+		<button type="button" id="submitBtn" class="btn btn-primary">Submit</button>
 		</form>
 	</ul>
 
@@ -56,6 +56,13 @@
 				if ((seconds <= 0) && (minutes <= 0)) clearInterval(interval);
 				startTime = minutes + ':' + seconds;
 			}, 1000);
+
+			$(document).on('click', '#submitBtn', function () {
+				$(this).attr('disabled', true);
+				$(this).html("Please wait..");
+
+				$(this).closest('form').submit();
+			});
 		})
 	</script>
 @endsection
