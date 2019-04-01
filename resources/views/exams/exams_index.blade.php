@@ -31,8 +31,8 @@
 @section('scripts')
 
 <script>
-	function removeExam() {
-		console.log("test");
+	function removeExam(examId) {
+		console.log("test: " + examId);
 		$.ajaxSetup({
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -42,7 +42,7 @@
 			url: "{{route('exam remove exam')}}",
 			method: 'post',
 			data: {
-				exam_id: $(this).data('exam-id')
+				exam_id: examId
 			},
 			success: function () {
 				window.location.href = "/";
@@ -55,7 +55,7 @@
 		$(document).on('click', '.deleteExamBtn', function () {
 			showConfirmationModal('Delete Exam', '\
 				You are about to delete the exam titled '+$(this).data('exam-title')+'.<br /><br />Are you sure this is what you want to do?\
-				', 'removeExam()');
+				', 'removeExam('+$(this).data('exam-id')+')');
 		});
 
 	});
