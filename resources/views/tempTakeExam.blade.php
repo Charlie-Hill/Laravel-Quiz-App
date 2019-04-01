@@ -21,11 +21,16 @@
 					<ul>
 						@foreach($question->answers()->inRandomOrder()->get() as $answer)
 							<li>
-								<div class="form-check form-check-inline">
+{{-- 								<div class="form-check form-check-inline">
 									<input class="form-check-input" type="radio" name="answer_{{$index}}" id="{{$answer->id}}" value="{{$answer->id}}">
 									<input type="hidden" name="question_{{$index}}" value="{{$question->id}}">
 									<label class="form-check-label" for="{{$answer->id}}">{{$answer->quiz_answer}}</label>
-								</div>
+								</div> --}}
+								    <div class="custom-control custom-radio">
+								    	<input type="hidden" name="question_{{$index}}" value="{{$question->id}}">
+										<input type="radio" name="answer_{{$index}}" id="{{$answer->id}}" value="{{$answer->id}}" class="custom-control-input">
+										<label class="custom-control-label" for="{{$answer->id}}">{{$answer->quiz_answer}}</label>
+									</div>
 							</li>
 						@endforeach
 					</ul>
