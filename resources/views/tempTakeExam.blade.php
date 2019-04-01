@@ -24,7 +24,7 @@
 							<div class="form-check form-check-inline">
 								<input class="form-check-input" type="radio" name="answer_{{$index}}" id="{{$answer->id}}" value="{{$answer->id}}">
 								<input type="hidden" name="question_{{$index}}" value="{{$question->id}}">
-								<label class="form-check-label">{{$answer->quiz_answer}}</label>
+								<label class="form-check-label" for="{{$answer->id}}">{{$answer->quiz_answer}}</label>
 							</div>
 						</li>
 					@endforeach
