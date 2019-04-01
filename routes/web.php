@@ -38,3 +38,6 @@ Route::post('/exams/questions/answers/add', 'AnswerController@handleAddAnswerToQ
 Route::post('/exams/questions/answers/updateCorrectAnswer', 'AnswerController@handleUpdateCorrectAnswer')->name('exam question answer updateCorrect');
 Route::post('/exams/questions/answers/remove', 'AnswerController@handleDeleteAnswerFromQuestion')->name('exam question delete answer');
 /* Exam answers management */
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

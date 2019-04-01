@@ -8,6 +8,11 @@ use App\QuizAnswer;
 
 class AnswerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+	
     public function handleAddAnswerToQuestion(Request $request)
     {
 		if(!$request->ajax()) return response('Forbidden.', 403);

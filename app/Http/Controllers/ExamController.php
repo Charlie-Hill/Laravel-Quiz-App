@@ -10,6 +10,11 @@ use App\QuizAnswer;
 
 class ExamController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
     	$exams = QuizExam::get();
@@ -101,7 +106,7 @@ class ExamController extends Controller
 
         $percentageScore = ($correctCount / count($questions)) * 100;
 
-        print("<hr>You scored: " . $correctCount . "/" . count($questions) . "(" . $percentageScore . "%)
+        print("<hr>You scored: " . $correctCount . "/" . count($questions) . "(" . round($percentageScore, 2) . "%)
                 <a href='/exams/view/".$dbQuestion->quiz_exam."'><-- Back</a>
             ");
     }

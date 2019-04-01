@@ -9,6 +9,11 @@ use App\QuizQuestion;
 
 class QuestionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+	
     public function viewExamQuestion($examid, $id)
     {
     	$question = QuizQuestion::find($id);
