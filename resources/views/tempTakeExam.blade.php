@@ -16,23 +16,23 @@
 		<form action="" method="post">
 			@csrf
 			<input type="hidden" name="num_questions" value="{{count($question_pool)}}">
-		@foreach($question_pool as $index => $question)
-			<li>{{$index+1}}.) {{$question->quiz_question}}
-				<ul>
-					@foreach($question->answers()->inRandomOrder()->get() as $answer)
-						<li>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="answer_{{$index}}" id="{{$answer->id}}" value="{{$answer->id}}">
-								<input type="hidden" name="question_{{$index}}" value="{{$question->id}}">
-								<label class="form-check-label" for="{{$answer->id}}">{{$answer->quiz_answer}}</label>
-							</div>
-						</li>
-					@endforeach
-				</ul>
-			</li>
-			<br>
-		@endforeach
-		<button type="button" id="submitBtn" class="btn btn-primary">Submit</button>
+			@foreach($question_pool as $index => $question)
+				<li>{{$index+1}}.) {{$question->quiz_question}}
+					<ul>
+						@foreach($question->answers()->inRandomOrder()->get() as $answer)
+							<li>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="answer_{{$index}}" id="{{$answer->id}}" value="{{$answer->id}}">
+									<input type="hidden" name="question_{{$index}}" value="{{$question->id}}">
+									<label class="form-check-label" for="{{$answer->id}}">{{$answer->quiz_answer}}</label>
+								</div>
+							</li>
+						@endforeach
+					</ul>
+				</li>
+				<br>
+			@endforeach
+			<button type="button" id="submitBtn" class="btn btn-primary">Submit</button>
 		</form>
 	</ul>
 
