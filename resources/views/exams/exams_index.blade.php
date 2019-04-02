@@ -17,7 +17,7 @@
 				@else
 					<a href="{{route('exams take exam', $exam->id)}}">Take Exam</a>
 				@endif
-				| <button class="no-border deleteExamBtn" data-exam-id="{{$exam->id}}" data-exam-title="{{$exam->exam_name}}">Delete Exam</button>
+				| <button class="no-border deleteExamBtn" style="padding:0;color:#4582EC;" data-exam-id="{{$exam->id}}" data-exam-title="{{$exam->exam_name}}">Delete Exam</button>
 			</li>
 		@endforeach
 	</ul>
