@@ -32,7 +32,6 @@
 
 <script>
 	function removeExam(examId) {
-		console.log("test: " + examId);
 		$.ajaxSetup({
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
