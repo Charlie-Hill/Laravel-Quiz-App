@@ -15,14 +15,14 @@
 	<ul>
 		<form action="" method="post">
 			@csrf
-			<input type="hidden" name="num_questions" value="{{count($question_pool)}}">
-			@foreach($question_pool as $index => $question)
-				<li>{{$index+1}}.) {{$question->quiz_question}}
+			<input type="hidden" name="num_questions" value="{{count($questions)}}">
+			@foreach($questions as $index => $question)
+				<li>{{$index+1}}.) {{$questions[$index]['question']->quiz_question}}
 					<ul>
-						@foreach($question->answers()->inRandomOrder()->get() as $answer)
+						@foreach($questions[$index]['answers'] as $answer)
 							<li>
 						    	<div class="custom-control custom-radio">
-									<input type="hidden" name="question_{{$index}}" value="{{$question->id}}">
+									<input type="hidden" name="question_{{$index}}" value="{{$questions[$index]['question']->id}}">
 									<input type="radio" name="answer_{{$index}}" id="{{$answer->id}}" value="{{$answer->id}}" class="custom-control-input">
 									<label class="custom-control-label" for="{{$answer->id}}">{{$answer->quiz_answer}}</label>
 								</div>
@@ -32,6 +32,7 @@
 				</li>
 				<br>
 			@endforeach
+
 			<button type="button" id="submitBtn" class="btn btn-primary">Submit</button>
 		</form>
 	</ul>

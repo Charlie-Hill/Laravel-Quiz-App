@@ -68,10 +68,10 @@ class ExamController extends Controller
     {
         $exam = QuizExam::find($id);
 
-        $question_pool = $exam->questions()->inRandomOrder()->distinct()->take(10)->get();
+        $questions = $exam->getQuestionsWithAnswers();
 
         return view('tempTakeExam')
-                ->with(['exam' => $exam, 'question_pool' => $question_pool]);
+                ->with(['exam' => $exam, 'questions' => $questions]);
     }
 
     public function submitExam(Request $request)

@@ -14,6 +14,20 @@ class QuizExam extends Model
 		return $this->hasMany(QuizQuestion::class, 'quiz_exam', 'id');
 	}
 
+	public function getQuestionsWithAnswers()
+	{
+		$questions = $this->questions()->inRandomOrder()->distinct()->take(10)->get();
+		$finalQuestions = array();
+
+		foreach($questions as $index => $question)
+		{
+			$answers[$index] = $question->answers()->inRandomOrder()->get();
+			$finalQuestions[] = array("question" => $question, "answers" => $answers[$index]);
+		}
+
+		return $finalQuestions;
+	}
+
 	public function hasQuestions()
 	{
 		if(count($this->questions) <= 0) {
