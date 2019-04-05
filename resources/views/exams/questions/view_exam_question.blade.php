@@ -69,9 +69,14 @@
 			$(document).on('click', '#addAnswerBtn', function () {
 				$('#addAnswerBtn').hide();
 				$('#answers').append('\
+					<div id="buttons">\
 					<input type="text" name="answer" class="form-control" id="addAnswerInp" placeholder="Enter the answer" autocomplete="off" />\
-					<input type="checkbox" id="correct_answer" value="0"> Correct Answer<br> \
+					<div class="custom-control custom-switch">\
+					<input type="checkbox" id="correct_answer" value="0" class="custom-control-input"> \
+					<label class="custom-control-label" for="correct_answer">Correct Answer</label>\
+					</div>\
 					<button type="button" class="btn btn-primary" id="submitAnswerBtn">Submit</button>\
+					</div>\
 					');
 			});
 
