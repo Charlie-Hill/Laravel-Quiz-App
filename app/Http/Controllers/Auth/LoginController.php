@@ -36,4 +36,14 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    public function showLoginForm()
+    {
+        return view('home.login')->with('hideNav', true);
+    }
+
+    public function username()
+    {
+        return 'name';
+    }
 }
