@@ -35,6 +35,8 @@ class ExamController extends Controller
 
     public function handleAddExam(Request $request)
     {
+        if(!$request->ajax()) return response(['Forbidden.', 403]);
+
 		$validatedData = $request->validate([
 			'exam_name' => 'required|max:60',
 			'exam_description' => 'required|max:255'
@@ -42,7 +44,7 @@ class ExamController extends Controller
 
 		QuizExam::create($request->all());
 
-		return redirect(route('exams index'));
+        return response(['success' => 'Data is successfully added']);
     }
 
     public function handleUpdateExam(Request $request)

@@ -6,7 +6,7 @@
 	
 	<h4>Exams</h4>
 
-	<ul>
+	<ul id="exams">
 		@foreach($exams as $exam)
 			<li>
 				{{$exam->exam_name}} || <a href="{{route('exams view exam', $exam->id)}}">Manage Exam</a> | 
@@ -24,7 +24,10 @@
 
 	<hr>
 
-	<a href="{{route('exams add exam')}}">Create new exam</a>
+	{{-- <a href="{{route('exams add exam')}}">Create new exam</a> --}}
+	<div id="inputs">
+		<a href="#" id="createNewExamBtn">Create new exam</a>
+	</div>
 
 @endsection
 
@@ -55,6 +58,53 @@
 			showConfirmationModal('Delete Exam', '\
 				You are about to delete the exam titled '+$(this).data('exam-title')+'.<br /><br />Are you sure this is what you want to do?\
 				', 'removeExam('+$(this).data('exam-id')+')');
+		});
+
+		$(document).on('click', '#createNewExamBtn', function () {
+			$(this).hide();
+			$('#inputs').append('\
+				<input class="form-control" type="text" id="name" placeholder="Exam Name" /> \
+				<textarea class="form-control" id="description" placeholder="Exam Description"></textarea>\
+				<select class="form-control" id="examTime"><option value="0">No Limit</option>\
+				<option value="10">10 minutes</option>\
+				<option value="15">15 minutes</option>\
+				<option value="30">30 minutes</option>\
+				<option value="45">45 minutes</option>\
+				<option value="60">60 minutes</option>\
+				</select>\
+				<button class="btn btn-primary" id="createExamBtn">Create Exam</button>\
+				<button class="btn btn-outline-info" id="cancelCreateExamBtn">Cancel</button>\
+				');
+		});
+
+		$(document).on('click', '#cancelCreateExamBtn', function () {
+			$(this).remove();
+			$('#inputs').load(window.location.href + ' #inputs');
+		});
+
+		$(document).on('click', '#createExamBtn', function () {
+			$(this).attr('disabled', true);
+			$(this).html('Please Wait..');
+
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				}
+			});
+			$.ajax({
+				url: "{{route('exams add exam')}}",
+				method: 'post',
+				data: {
+					exam_name: $('#name').val(),
+					exam_description: $('#description').val(),
+					exam_timelimit: $('#examTime').val(),
+				},
+				success: function() {
+					$(this).remove();
+					$('#inputs').load(window.location.href + ' #inputs');
+					$('#exams').load(window.location.href + ' #exams');
+				}
+			});
 		});
 
 	});
