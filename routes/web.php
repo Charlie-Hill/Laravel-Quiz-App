@@ -41,3 +41,20 @@ Route::post('/exams/questions/answers/remove', 'AnswerController@handleDeleteAns
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/test', function () {
+	$alphas = range('A', 'Z');
+	$plate = "";
+	for($i=0;$i<8;$i++)
+	{
+		if($i == 1 || $i == 6 || $i == 7)
+		{
+			$plate = $plate . $alphas[rand(0, sizeof($alphas) - 1)];
+		}
+		else
+		{
+			$plate = $plate . rand(0, 9);
+		}
+	}
+	echo $plate;
+});
