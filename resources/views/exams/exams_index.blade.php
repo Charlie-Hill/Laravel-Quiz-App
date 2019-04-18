@@ -11,7 +11,7 @@
 	<div id="examsContainer">
 		{{-- <ul id="exams"> --}}
 		<div class="row">
-			@foreach($exams as $exam)
+			@foreach($exams as $index => $exam)
 {{-- 				<li>
 					{{$exam->exam_name}} || <a href="{{route('exams view exam', $exam->id)}}">Manage Exam</a> | 
 					@if(!$exam->hasQuestions())
@@ -40,6 +40,8 @@
 							@endif
 								|
 								<a href="{{route('exams view exam', $exam->id)}}">Manage Exam <i class="fas fa-tools"></i></a>
+								|
+								<button class="no-border deleteExamBtn" style="padding:0;color:#4582EC;" data-exam-id="{{$exam->id}}" data-exam-title="{{$exam->exam_name}}"><i class="fas fa-trash"></i> Delete Exam</button>
 						</div>
 					</div>
 				</div>

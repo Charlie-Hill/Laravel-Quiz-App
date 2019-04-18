@@ -4,7 +4,7 @@
 
 @section('content')
 	<h2 id="question">Q. {{$question->quiz_question}}</h2>
-	<a href="{{route('exams view exam', $question->quiz_exam)}}"><span class="fas fa-arrow-left"></span> Back</a>
+	<a href="{{ URL::previous() }}"><span class="fas fa-arrow-left"></span> Back</a>
 
 	<div id="warnings">
 		@if(count($question->answers) && !$question->answers->where('correct_answer', 1)->first())
