@@ -16,20 +16,20 @@
 
 	<hr>
 
-	<div id="answers" class="col-lg-12">
-		
-		@if(count($question->answers))
-			<ul>
-				@foreach($question->answers as $answer)
-					<li>
-						<span style="{{$answer->correct_answer ? "color: green;font-weight:bold;" : ""}};">{{$answer->quiz_answer}} @if($answer->correct_answer == 1)| <span class="badge badge-pill badge-success"><i class="fas fa-check-circle"></i> Correct Answer!</span>@endif <button class="no-border deleteBtn" data-answer-id="{{$answer->id}}"><i class="fas fa-trash"></i></button> @if(!$answer->correct_answer)<button class='no-border selectCorrectBtn' data-answer-id="{{$answer->id}}"><i class='fas fa-check'></i></button>@endif</span>
-					</li>
-				@endforeach
-			</ul>
-		@else
-			<p>There are no answers associated with this question yet.</p>
-		@endif
-
+	<div id="answers-container">
+		<div id="answers" class="col-lg-12">
+			@if(count($question->answers))
+				<ul>
+					@foreach($question->answers as $answer)
+						<li>
+							<span style="{{$answer->correct_answer ? "color: green;font-weight:bold;" : ""}}">{{$answer->quiz_answer}} @if($answer->correct_answer == 1)| <span class="badge badge-pill badge-success"><i class="fas fa-check-circle"></i> Correct Answer!</span>@endif <button class="no-border deleteBtn" data-answer-id="{{$answer->id}}"><i class="fas fa-trash"></i></button> @if(!$answer->correct_answer)<button class='no-border selectCorrectBtn' data-answer-id="{{$answer->id}}"><i class='fas fa-check'></i></button>@endif</span>
+						</li>
+					@endforeach
+				</ul>
+			@else
+				<p>There are no answers associated with this question yet.</p>
+			@endif
+		</div>
 	</div>
 
 	<button type="button" class="btn btn-primary" id="addAnswerBtn">Add Answer <i class="fas fa-plus"></i></button>
@@ -99,7 +99,7 @@
 					},
 					success: function () {
 						$('#submitAnswerBtn').hide();
-						$('#answers').load(location.href + ' #answers');
+						$('#answers-container').load(location.href + ' #answers');
 						$('#warnings').load(location.href + ' #warnings');
 						$('#addAnswerBtn').show();
 					}
@@ -123,7 +123,7 @@
 							answer_id: $(this).data('answer-id')
 						},
 						success: function () {
-							$('#answers').load(location.href + ' #answers');
+							$('#answers-container').load(location.href + ' #answers');
 							$('#warnings').load(location.href + ' #warnings');
 						}
 					});
@@ -147,7 +147,7 @@
 							answer_id: $(this).data('answer-id')
 						},
 						success: function () {
-							$('#answers').load(location.href + ' #answers');
+							$('#answers-container').load(location.href + ' #answers');
 						}
 					});
 				}

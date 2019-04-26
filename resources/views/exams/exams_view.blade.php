@@ -31,28 +31,30 @@
 	<hr>
 
 	<div class="row">
-		<div id="questions" class="col-md-12">
-			@if(count($exam->questions))
-			<h6>Questions ({{count($exam->questions)}}):</h6>
-				<ul>
-					@foreach($exam_questions as $question)
-						<li>
-							<a href="{{route('exam view question', [$exam->id, $question->id])}}">
-								{{$question->quiz_question}}
-								@if(count($question->answers) && !$question->answers->where('correct_answer', 1)->first())<span style="color: orange;"><i class="fas fa-exclamation-circle"></i> No correct answer!</span>
-								@elseif(!count($question->answers))
-									<span style="color: orange;"><i class="fas fa-exclamation-circle"></i> No associated answers!</span>
-								@endif
-							</a>
-						</li>
-					@endforeach
-				</ul>
+		<div id="questions-container">
+			<div id="questions" class="col-md-12">
+				@if(count($exam->questions))
+				<h6>Questions ({{count($exam->questions)}}):</h6>
+					<ul>
+						@foreach($exam_questions as $question)
+							<li>
+								<a href="{{route('exam view question', [$exam->id, $question->id])}}">
+									{{$question->quiz_question}}
+									@if(count($question->answers) && !$question->answers->where('correct_answer', 1)->first())<span style="color: orange;"><i class="fas fa-exclamation-circle"></i> No correct answer!</span>
+									@elseif(!count($question->answers))
+										<span style="color: orange;"><i class="fas fa-exclamation-circle"></i> No associated answers!</span>
+									@endif
+								</a>
+							</li>
+						@endforeach
+					</ul>
 
-				{{$exam_questions->links()}}
-				<small>Showing {{($exam_questions->currentpage()-1)*$exam_questions->perpage()+1}} to {{$exam_questions->currentpage()*$exam_questions->perpage()}} of  {{$exam_questions->total()}} entries</small>
-			@else
-				<p style="margin:0;">You have not created any questions.</a></p>
-			@endif
+					{{$exam_questions->links()}}
+					<small>Showing {{($exam_questions->currentpage()-1)*$exam_questions->perpage()+1}} to {{$exam_questions->currentpage()*$exam_questions->perpage()}} of  {{$exam_questions->total()}} entries</small>
+				@else
+					<p style="margin:0;">You have not created any questions.</a></p>
+				@endif
+			</div>
 		</div>
 	</div>
 
@@ -144,7 +146,7 @@
 					success: function () {
 						$('#submitAddQuestionBtn').remove();
 						$('#quizQuestion').remove();
-						$('#questions').load(location.href + ' #questions');
+						$('#questions-container').load(location.href + ' #questions');
 						$('#addQuestionBtn').show();
 						$('#cancelAddQuestionBtn').remove();
 					}
