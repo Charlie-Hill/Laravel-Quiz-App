@@ -10,7 +10,7 @@
 
 	<div id="examsContainer">
 		{{-- <ul id="exams"> --}}
-		<div class="row">
+		<div class="row" id="exams">
 			@foreach($exams as $index => $exam)
 {{-- 				<li>
 					{{$exam->exam_name}} || <a href="{{route('exams view exam', $exam->id)}}">Manage Exam</a> | 
