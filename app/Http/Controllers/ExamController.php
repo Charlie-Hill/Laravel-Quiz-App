@@ -94,6 +94,8 @@ class ExamController extends Controller
             $dbQuestion = QuizQuestion::find($question[0]);
             $dbAnswer = QuizAnswer::find($question[1]);
 
+            if(!$dbQuestion || !$dbAnswer) continue;
+
             $examId = $dbQuestion->quiz_exam;
 
             // No need to query QuizAnswers twice. Select both once -> filter by correct_answer when displaying them
