@@ -8,6 +8,8 @@ use App\QuizExam;
 use App\QuizQuestion;
 use App\QuizAnswer;
 
+use App\ExamResult;
+
 class ExamController extends Controller
 {
     public function __construct()
@@ -70,7 +72,7 @@ class ExamController extends Controller
     {
         $exam = QuizExam::find($id);
 
-        $questions = $exam->getQuestionsWithAnswers();
+        $questions = $exam->getQuestionsWithAnswers($exam->questions->count());
 
         return view('tempTakeExam')
                 ->with(['exam' => $exam, 'questions' => $questions]);
@@ -84,10 +86,15 @@ class ExamController extends Controller
         }
 
         $correctCount = 0;
+
+        // tmp
+        $examId = 0;
         foreach($questions as $question)
         {
             $dbQuestion = QuizQuestion::find($question[0]);
             $dbAnswer = QuizAnswer::find($question[1]);
+
+            $examId = $dbQuestion->quiz_exam;
 
             // No need to query QuizAnswers twice. Select both once -> filter by correct_answer when displaying them
             $otherAnswers = QuizAnswer::where('quiz_question', $dbQuestion->id)->where('id', '!=', $dbAnswer->id)->get();
@@ -105,6 +112,11 @@ class ExamController extends Controller
 
             print("Q.) " . $dbQuestion->quiz_question . "<br /><span style='margin-left:40px;'>A.) " . $dbAnswer->quiz_answer . " <b>" . ($correct ? '✓ correct' : 'X incorrect') . "</b>".$string."</span><br /><br />");
         }
+
+        ExamResult::create([
+            'exam_id' => $examId,
+            'correct_answers' => $correctCount
+        ]);
 
         $percentageScore = ($correctCount / count($questions)) * 100;
 
