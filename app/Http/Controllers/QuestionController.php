@@ -16,7 +16,6 @@ class QuestionController extends Controller
 	
     public function viewExamQuestion($examid, $id)
     {
-        return back();
     	$question = QuizQuestion::find($id);
     	return view('exams.questions.view_exam_question')->with(['question' => $question]);
     }
