@@ -3,7 +3,7 @@
 @section('title', 'Viewing Exam')
 
 @section('content')
-	
+
 	<div class="row">
 		<div class="col-lg-12">
 			<div id="title">
@@ -17,8 +17,9 @@
 				<div class="col-md-6">
 					<a href="{{route('exams index')}}"><i class="fas fa-arrow-left"></i> Back</a>
 				</div>
-				<div class="col-md-6" style="display:flex;flex-direction:column;align-items:flex-end;">
-					<a href="#" class="no-border" id="editExamBtn"><i class="fas fa-edit"></i> Edit</a>
+                <div class="col-md-6" style="display:flex;flex-direction:column;align-items:flex-end;">
+                    <a href="#" class="no-border" style="display:inline-block;" id="editExamGroupBtn"><i class="fas fa-object-group"></i><small>{{$exam->group ? '('.$exam->group->title.')' : ''}}</small> Edit Group</a>
+					<a href="#" class="no-border" style="display:inline-block;" id="editExamBtn"><i class="fas fa-edit"></i> Edit</a>
 				</div>
 			</div>
 		</div>
@@ -62,15 +63,58 @@
 
 	<div id="buttons">
 		<button type="button" class="btn btn-primary" id="addQuestionBtn">Add Question <i class="fas fa-plus"></i></button>
-	</div>
+    </div>
+
+    <div class="modal" id="editGroupsModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Exam Group</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{$exam->group ? 'Current Group: '.$exam->group->title : ''}}</p>
+                <select class="form-control" name="groups" id="groups">
+                    <option value="0" id="group-0">No Group</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="saveExamGroupBtn">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+        </div>
 
 @endsection
 
 @section('scripts')
 
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	<script>
+        function loadGroups(groups) {
+            var groups;
+
+            $.getJSON('/api/groups/all', function(data) {
+                groups = data;
+            }).done(function () {
+                var options = [];
+
+                $.each(groups, function(key, val) {
+                    options.push('<option id="group-'+val.id+'" value="'+val.id+'">'+val.title+'</option>')
+                });
+
+                $('#groups').append(options);
+            });
+        }
+
 		$(document).ready(function () {
+
+            loadGroups();
 
 			$(document).on('click', '#editExamBtn', function () {
 				$('#editExamBtn').hide();
@@ -86,6 +130,32 @@
 				$('#title').load(window.location + ' #title');
 				$('#editExamBtn').show();
 			});
+
+            $(document).on('click', '#editExamGroupBtn', function () {
+                $('#editGroupsModal').modal('show');
+            });
+
+            $(document).on('click', '#saveExamGroupBtn', function () {
+                var selectedGroup = $('#groups').val();
+
+				$.ajaxSetup({
+					headers: {
+						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					}
+				});
+                $.ajax({
+                    url: "/api/exams/update/group",
+                    method: 'post',
+                    data: {
+                        exam: {{$exam->id}},
+                        group: selectedGroup
+                    },
+                    success: function () {
+                        $('#editGroupsModal').modal('show');
+                        alert('Updated Group');
+                    }
+                });
+            });
 
 			$(document).on('click', '#saveEditExam', function () {
 				$(this).attr('disabled', true);

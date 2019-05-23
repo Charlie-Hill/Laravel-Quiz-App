@@ -3,34 +3,30 @@
 @section('title', 'Home')
 
 @section('content')
-	
-	<h4>Exams</h4>
+
+    <h4>Exams</h4>
+    @if(!is_null($category))
+    <p>{{$category->title}} <a href="/exams">(Clear)</a></p>
+    @endif
 
 	<hr>
 
 	<div id="examsContainer">
-		{{-- <ul id="exams"> --}}
 		<div class="row" id="exams">
 			@foreach($exams as $index => $exam)
-{{-- 				<li>
-					{{$exam->exam_name}} || <a href="{{route('exams view exam', $exam->id)}}">Manage Exam</a> | 
-					@if(!$exam->hasQuestions())
-						<span style="color:red;"><i class="fas fa-exclamation-triangle"></i> This exam has no questions!</span>
-					@elseif($exam->hasMissingCorrectAnswers())
-						<span style="color:red;"><i class="fas fa-exclamation-triangle"></i> This exam has {{$exam->hasMissingCorrectAnswers()}} missing correct answers for questions.</span>
-					@else
-						<a href="{{route('exams take exam', $exam->id)}}">Take Exam</a>
-					@endif
-					| <button class="no-border deleteExamBtn" style="padding:0;color:#4582EC;" data-exam-id="{{$exam->id}}" data-exam-title="{{$exam->exam_name}}">Delete Exam</button>
-				</li> --}}
 				<div class="col-md-4">
 					<div class="card {{!$exam->hasQuestions() || $exam->hasMissingCorrectAnswers() ? 'border-danger' : ''}} mb-3" style="max-width: 20rem;">
-						<div class="card-header">{{$exam->exam_name}}</div>
+						<div class="card-header">
+                            {{$exam->exam_name}}<br />
+                            @if(!is_null($exam->group))
+                                <small>(Group: <a href="/exams?category={{$exam->group->title}}">{{$exam->group->title}}</a>)</small>
+                            @endif
+                        </div>
 						<div class="card-body">
 							<p class="card-text">{{$exam->exam_description}}</p>
 
 							<hr>
-							
+
 							@if(!$exam->hasQuestions())
 								<span style="color:red;"><i class="fas fa-exclamation-triangle"></i> This exam has no questions!</span>
 							@elseif($exam->hasMissingCorrectAnswers())

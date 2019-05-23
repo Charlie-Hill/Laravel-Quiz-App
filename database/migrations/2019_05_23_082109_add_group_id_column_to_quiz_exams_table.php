@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddGroupColumnToQuizExamsTable extends Migration
+class AddGroupIdColumnToQuizExamsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddGroupColumnToQuizExamsTable extends Migration
     public function up()
     {
         Schema::table('quiz_exams', function (Blueprint $table) {
-            $table->unsignedBigInteger('group')->nullable();
+            $table->unsignedBigInteger('group_id')->nullable();
             $table->foreign('group')->references('id')->on('quiz_exams')->onUpdate('cascade');
         });
     }

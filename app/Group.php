@@ -8,9 +8,4 @@ class Group extends Model
 {
     protected $guarded = [];
 
-    public function exams()
-    {
-        $this->hasMany(QuizExam::class, 'group', 'id');
-    }
-
 }

@@ -18,7 +18,11 @@ Route::get('/', function () {
 });
 
 /* Groups management */
+Route::get('/groups', function () {
+    $exam = \App\QuizExam::find(6);
 
+    return $exam->group()->title;
+});
 /* Groups management */
 
 /* Exam management */

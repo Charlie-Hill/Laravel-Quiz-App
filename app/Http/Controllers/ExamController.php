@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 
 use App\QuizExam;
-use App\QuizQuestion;
-use App\QuizAnswer;
-
 use App\ExamResult;
+use App\QuizAnswer;
+use App\Group;
+use App\QuizQuestion;
+
+use Illuminate\Http\Request;
 
 class ExamController extends Controller
 {
@@ -19,8 +20,17 @@ class ExamController extends Controller
 
     public function index()
     {
-    	$exams = QuizExam::get();
-    	return view('exams.exams_index')->with(['exams' => $exams]);
+        $category = null;
+        if(!empty($_GET['category'])) {
+            $category = Group::where('title', $_GET['category'])->first();
+            $exams = QuizExam::where('group_id', $category->id)->get();
+        } else {
+            $exams = QuizExam::orderBy('group_id')->get();
+        }
+    	return view('exams.exams_index')->with([
+            'exams' => $exams,
+            'category' => $category
+            ]);
     }
 
     public function viewExam($id)

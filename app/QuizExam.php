@@ -11,7 +11,7 @@ class QuizExam extends Model
 
     public function group()
     {
-        return $this->belongsTo(Group::class, 'group', 'id');
+        return $this->belongsTo(Group::class, 'group_id');
     }
 
 	public function questions()
