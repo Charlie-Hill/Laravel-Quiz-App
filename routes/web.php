@@ -11,9 +11,15 @@
 |
 */
 
+Auth::routes();
+
 Route::get('/', function () {
     return redirect(route('exams index'));
 });
+
+/* Groups management */
+
+/* Groups management */
 
 /* Exam management */
 Route::get('/exams', 'ExamController@index')->name('exams index');
@@ -38,23 +44,5 @@ Route::post('/exams/questions/answers/add', 'AnswerController@handleAddAnswerToQ
 Route::post('/exams/questions/answers/updateCorrectAnswer', 'AnswerController@handleUpdateCorrectAnswer')->name('exam question answer updateCorrect');
 Route::post('/exams/questions/answers/remove', 'AnswerController@handleDeleteAnswerFromQuestion')->name('exam question delete answer');
 /* Exam answers management */
-Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('/test', function () {
-	$alphas = range('A', 'Z');
-	$plate = "";
-	for($i=0;$i<8;$i++)
-	{
-		if($i == 1 || $i == 6 || $i == 7)
-		{
-			$plate = $plate . $alphas[rand(0, sizeof($alphas) - 1)];
-		}
-		else
-		{
-			$plate = $plate . rand(0, 9);
-		}
-	}
-	echo $plate;
-});

@@ -9,6 +9,11 @@ class QuizExam extends Model
     //
     protected $guarded = [];
 
+    public function group()
+    {
+        return $this->belongsTo(Group::class, 'group', 'id');
+    }
+
 	public function questions()
 	{
 		return $this->hasMany(QuizQuestion::class, 'quiz_exam', 'id');
